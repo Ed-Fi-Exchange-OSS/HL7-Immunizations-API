@@ -1,6 +1,6 @@
-﻿# Insert Repository Name Here
+﻿# HL7 Immunizations API
 
-Insert project information here
+An API module for the Ed-Fi API which uses student data to query an HL7 API for immunization data for a student.
 
 ## Legal Information
 
