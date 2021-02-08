@@ -10,7 +10,7 @@ Add the Wi.Dpi.Immunizations project to your Ed-Fi solution
 
 Modify EdFi.Ods.Api.Startup.OdsStartupBase class to add an overrideable method to register the immunization service:
 ```
-	protected virtual void AddSettingsHook(IServiceCollection services) { } 
+	protected virtual void AddSettingsHook(IServiceCollection services) { }
 ```
 and call this in ConfigureServices.
 
@@ -41,9 +41,9 @@ In appsettings.json:
         "Name": "Immunizations",
         "IsEnabled": true
     }
-```	
+```
 	Add:
-```	
+```
 	"ImmunizationsSettings": {
 		"WirUrl": "URL_TO_HL7_WCF_SERVICE",
 		"WirClientCertificateName": "YOUR_CERT_HERE",
@@ -54,17 +54,19 @@ In appsettings.json:
 ### Project files which require particular review/revision:
 
 _ImmunizationsImmunizationsPatientIdentificationProvider:_
-The query for retrieving student data should be reviewed to account for address and identification code descriptors as well as any localized logic or data format expectations. 
+The query for retrieving student data should be reviewed to account for address and identification code descriptors as well as any localized logic or data format expectations.
 
 _ImmunizationsRequestProvider:_
-The message header should be updated based upon your service's requirements.  The query portion should also be reviewed and updated to conform to local requirements. 
+The message header should be updated based upon your service's requirements.  Your organization codes will differ.  The query portion should also be reviewed and updated to conform to local requirements.
 
 _ImmunizationsWirClient:_
 The username and facilityID must be updated to your service's requirements.
 
 _ImmunizationsWirSchoolProvider:_
 For each school which requires access to the service, an appropriate ID code for the service must exist in  EducationOrganizationIdenficationCodes.  The appropriate descriptorId for your instance can be set within the SQL.
-	
+
+_Immunizations.json:_
+Adjust the description, status code description, and security as needed.
 
 ## Copyright
 Copyright 2020 Wisconsin Department of Public Instruction.
