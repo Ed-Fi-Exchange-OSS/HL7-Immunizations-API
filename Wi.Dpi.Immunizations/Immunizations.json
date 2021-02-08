@@ -1,0 +1,352 @@
+{
+  "host": "%HOST%",
+  "basePath": "%BASE_PATH%",
+  "swagger": "2.0",
+  "info": {
+    "title": "Immunizations API",
+    "description": "Coming soon(ish)! The WI Department of Public Instruction in conjunction with the WI Department of Health Services is working to facilitate the retrieval of HL7 immunization data from the WI Immunization Registry via the EdFi API.",
+    "version": "v1"
+  },
+  "paths": {
+    "/immunizations/students/{uniqueId}": {
+      "get": {
+        "tags": [
+          "Immunizations"
+        ],
+        "summary": "Returns a set of immunization history for a student",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uniqueId",
+            "description": "Unique Id of the person to be retrieved.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource was successfully retrieved.",
+            "schema": {
+              "$ref": "#/definitions/ImmunizationsStudentResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ImmunizationsStatusCode": {
+      "format": "int32",
+      "description": "0=Reject (WiR found an error with the DPI request - contact DPI); <br />\r\n1=Success; <br />\r\n2=MultipleMatches (If there are multiple matches please make sure the students information match in both EdFi and WiR); <br />\r\n3=NotFound (If there are no matches please make sure the students information match in both EdFi and WiR)",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "type": "integer"
+    },
+    "ImmunizationsError": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsName": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "middleName": {
+          "type": "string"
+        },
+        "lastSurname": {
+          "type": "string"
+        },
+        "generationCodeSuffix": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsMaidenName": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastSurname": {
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsAddress": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "other": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsExtendedTelephoneNumber": {
+      "type": "object",
+      "properties": {
+        "useCode": {
+          "type": "string"
+        },
+        "equitpmentType": {
+          "type": "string"
+        },
+        "emailAddress": {
+          "type": "string"
+        },
+        "areaCode": {
+          "type": "string"
+        },
+        "localNumber": {
+          "type": "string"
+        },
+        "extension": {
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsPatientIdentifier": {
+      "description": "The WiR internal student identification.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The WiR student identifier.",
+          "type": "string"
+        },
+        "assigningAuthority": {
+          "description": "The authority issuing the student identifier.",
+          "type": "string"
+        },
+        "identifierTypeCode": {
+          "description": "The type of student identifier.",
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/ImmunizationsName"
+        },
+        "mothersMaidenName": {
+          "$ref": "#/definitions/ImmunizationsMaidenName"
+        },
+        "birthDate": {
+          "format": "date-time",
+          "description": "The student's birthdate.",
+          "type": "string"
+        },
+        "sex": {
+          "description": "The student's sex.",
+          "type": "string"
+        },
+        "race": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/ImmunizationsAddress"
+        },
+        "multipleBirthIndicator": {
+          "description": "The multiple birth indicator for the student.",
+          "type": "boolean"
+        },
+        "birthOrder": {
+          "description": "The birth order of the student.",
+          "type": "string"
+        },
+        "extendedTelephoneNumber": {
+          "$ref": "#/definitions/ImmunizationsExtendedTelephoneNumber"
+        }
+      }
+    },
+    "Link": {
+      "title": "link",
+      "type": "object",
+      "properties": {
+        "rel": {
+          "description": "Describes the nature of the relationship to the referenced resource",
+          "type": "string"
+        },
+        "href": {
+          "description": "The URL to the related resource",
+          "type": "string"
+        }
+      }
+    },
+    "StudentReference": {
+      "title": "edFi_studentReference",
+      "required": [
+        "studentUniqueId"
+      ],
+      "type": "object",
+      "properties": {
+        "studentUniqueId": {
+          "description": "A unique alphanumeric code assigned to a student.",
+          "type": "string"
+        },
+        "link": {
+          "$ref": "#/definitions/Link"
+        }
+      }
+    },
+    "StudentEducationOrganizationAssociationReference": {
+      "title": "edFi_studentEducationOrganizationAssociationReference",
+      "required": [
+        "studentUniqueId",
+        "educationOrganizationId"
+      ],
+      "type": "object",
+      "properties": {
+        "educationOrganizationId": {
+          "format": "int32",
+          "description": "The identifier assigned to an education organization.",
+          "type": "integer"
+        },
+        "studentUniqueId": {
+          "description": "A unique alphanumeric code assigned to a student.",
+          "type": "string"
+        },
+        "link": {
+          "$ref": "#/definitions/Link"
+        }
+      }
+    },
+    "ImmunizationsCodedElement": {
+      "description": "This data type transmits codes and the text associated with the code.",
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "description": "Identifying code.",
+          "type": "string"
+        },
+        "text": {
+          "description": "Human readable text that is not further used.",
+          "type": "string"
+        },
+        "nameOfCodingSystem": {
+          "description": "Name of the coding system.",
+          "type": "string"
+        },
+        "alternateIdentifier": {
+          "description": "Alternate identifying code.",
+          "type": "string"
+        },
+        "alternateText": {
+          "description": "Alternate human readable text that is not further used.",
+          "type": "string"
+        },
+        "alternateNameOfCodingSystem": {
+          "description": "Alternate name of the coding system.",
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsPharmacyTreatmentAdministration": {
+      "type": "object",
+      "properties": {
+        "administeredDate": {
+          "format": "date-time",
+          "description": "The date the treatment was administered.",
+          "type": "string"
+        },
+        "administeredCode": {
+          "$ref": "#/definitions/ImmunizationsCodedElement"
+        },
+        "waiver": {
+          "description": "The student's reason for not getting the treatment.",
+          "type": "string"
+        }
+      }
+    },
+    "ImmunizationsStudentHistory": {
+      "description": "The student identifiers and the student immunization history.",
+      "type": "object",
+      "properties": {
+        "patientIdentifier": {
+          "$ref": "#/definitions/ImmunizationsPatientIdentifier"
+        },
+        "studentReference": {
+          "$ref": "#/definitions/StudentReference"
+        },
+        "studentEducationOrganizationAssociationReference": {
+          "$ref": "#/definitions/StudentEducationOrganizationAssociationReference"
+        },
+        "pharmacyTreatmentAdministrations": {
+          "description": "An array of the student immunization history.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImmunizationsPharmacyTreatmentAdministration"
+          }
+        }
+      }
+    },
+    "ImmunizationsStudentResponse": {
+      "description": "The base response for the student immunizations endpoint.",
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "$ref": "#/definitions/ImmunizationsStatusCode"
+        },
+        "statusMessage": {
+          "description": "The message corresponding to the status.",
+          "type": "string",
+          "readOnly": true
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImmunizationsError"
+          }
+        },
+        "data": {
+          "$ref": "#/definitions/ImmunizationsStudentHistory"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2_client_credentials": {
+      "type": "oauth2",
+      "description": "Ed-Fi ODS/API OAuth 2.0 Client Credentials Grant Type authorization",
+      "flow": "application",
+      "tokenUrl": "%TOKEN_URL%",
+      "scopes": {}
+    }
+  },
+  "security": [
+    {
+      "oauth2_client_credentials": []
+    }
+  ]
+}
