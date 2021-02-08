@@ -52,14 +52,18 @@ In appsettings.json:
 ```
 
 ### Project files which require particular review/revision:
-ImmunizationsImmunizationsPatientIdentificationProvider:
-	The query for retrieving student data should be reviewed to account for address and identification code descriptors as well as any localized logic or data format expectations. 
-ImmunizationsRequestProvider:
-	The message header should be updated based upon your service's requirements.  The query portion should also be reviewed and updated to conform to local requirements. 
-ImmunizationsWirClient:
-	The username and facilityID must be updated to your service's requirements.
-ImmunizationsWirSchoolProvider:
-	For each school which requires access to the service, an appropriate ID code for the service must exist in  EducationOrganizationIdenficationCodes.  The appropriate descriptorId for your instance can be set within the SQL.
+
+_ImmunizationsImmunizationsPatientIdentificationProvider:_
+The query for retrieving student data should be reviewed to account for address and identification code descriptors as well as any localized logic or data format expectations. 
+
+_ImmunizationsRequestProvider:_
+The message header should be updated based upon your service's requirements.  The query portion should also be reviewed and updated to conform to local requirements. 
+
+_ImmunizationsWirClient:_
+The username and facilityID must be updated to your service's requirements.
+
+_ImmunizationsWirSchoolProvider:_
+For each school which requires access to the service, an appropriate ID code for the service must exist in  EducationOrganizationIdenficationCodes.  The appropriate descriptorId for your instance can be set within the SQL.
 	
 
 ## Copyright
