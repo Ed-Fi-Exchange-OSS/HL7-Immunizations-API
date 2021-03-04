@@ -139,7 +139,8 @@ namespace Wi.Dpi.Immunizations
                         {
                             Id = "100106",
                             Source = "WiR",
-                            Message = $"There was an HL7 error from WiR: {segment}"
+                            Error = segment,
+                            ErrorMessage = fields.Count > 8 ? fields[8] : null
                         });
                         break;
                 }

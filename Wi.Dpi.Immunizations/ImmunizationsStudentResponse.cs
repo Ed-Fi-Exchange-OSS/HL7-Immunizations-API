@@ -13,7 +13,8 @@ namespace Wi.Dpi.Immunizations
     {
         public string Id { get; set; }
         public string Source { get; set; }
-        public string Message { get; set; }
+        public string Error { get; set; }
+        public string ErrorMessage { get; set; }
     }
 
     /// <summary>

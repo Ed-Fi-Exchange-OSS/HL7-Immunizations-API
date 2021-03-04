@@ -83,10 +83,11 @@ namespace Wi.Dpi.Immunizations
 
                 if (result.Errors != null && result.Errors.Any())
                 {
-                    var errors = string.Join(",", result.Errors.Select(e => e.Message));
+                    var errors = string.Join(",", result.Errors.Select(e => e.Error));
                     Logger.Error($"ImmunizationsStudentsController GET WiR Error(s): {errors}");
                     result.Errors = null;
-                    return StatusCode((int)HttpStatusCode.BadGateway, new { Message = "There was an error from WiR. Please contact DPI to investigate."});
+                    var errorMessage = string.Join(",", result.Errors.Select(e => e.ErrorMessage));
+                    return StatusCode((int)HttpStatusCode.BadGateway, new { Message = $"The student immunization records cannot be retrieved because of a WIR error. Please login to the WIR to resolve the issue or contact DPI to help investigate. The error message WIR returned was {errorMessage}" });
                 }
                 result.Errors = null;
 
