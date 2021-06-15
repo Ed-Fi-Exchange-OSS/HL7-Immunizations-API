@@ -286,6 +286,9 @@
         "waiver": {
           "description": "The student's reason for not getting the treatment.",
           "type": "string"
+        },
+        "completionStatus": {
+          "type": "string"
         }
       }
     },

@@ -93,6 +93,7 @@ namespace Wi.Dpi.Immunizations
         /// The student's reason for not getting the treatment.
         /// </summary>
         public string Waiver { get; set; }
+        public string CompletionStatus { get; set; }
     }
 
     /// <summary>

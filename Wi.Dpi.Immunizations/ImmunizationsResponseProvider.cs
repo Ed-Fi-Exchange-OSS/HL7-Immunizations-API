@@ -132,7 +132,8 @@ namespace Wi.Dpi.Immunizations
                         break;
                     case MessageType.PharmacyTreatmentAdministration:
                         var pharmacyTreatmentAdministration = GetPharmacyTreatmentAdministration(fields);
-                        result.Data.PharmacyTreatmentAdministrations.Add(pharmacyTreatmentAdministration);
+                        if (pharmacyTreatmentAdministration.CompletionStatus != CompletionStatus.Refusal)
+                            result.Data.PharmacyTreatmentAdministrations.Add(pharmacyTreatmentAdministration);
                         break;
                     case MessageType.Error:
                         result.Errors.Add(new ImmunizationsError
@@ -187,14 +188,22 @@ namespace Wi.Dpi.Immunizations
         public const int RxaOrdinalAdministeredDate = 3;
         public const int RxaOrdinalAdministeredCode = 5;
         public const int RxaOrdinalSubstanceRefusalReason = 18;
+        public const int RxaOrdinalCompletionStatus = 20;
 
+        public static class CompletionStatus
+        {
+            public const string Complete = "CP";
+            public const string Partial = "PA";
+            public const string Refusal = "RE";
+        }
         private static ImmunizationsPharmacyTreatmentAdministration GetPharmacyTreatmentAdministration(List<string> fields)
         {
             var pharmacyTreatmentAdministration = new ImmunizationsPharmacyTreatmentAdministration
             {
                 AdministeredDate = ToEdFiDate(fields[RxaOrdinalAdministeredDate]),
                 AdministeredCode = GetCodedElement(GetParts(fields[RxaOrdinalAdministeredCode])),
-                Waiver = fields[RxaOrdinalSubstanceRefusalReason]
+                Waiver = fields[RxaOrdinalSubstanceRefusalReason],
+                CompletionStatus = fields[RxaOrdinalCompletionStatus]
             };
             return pharmacyTreatmentAdministration;
         }
